@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<link type="text/css" rel="stylesheet" href="stylesheet.css" />
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 		<title>{{ config.SITE_NAME}}</title>
 	</head>
 
@@ -10,6 +10,16 @@
 			<h1>Magnetic field symulator</h1>
 		</div>
 		<div id="underheader"></div>
+
+		<p>
+            {% if error %}
+                <strong class="error">Błąd: {{ error }}</strong>
+            {% endif %}
+
+            {% for message in get_flashed_messages() %}
+                <strong class="success">{{ message }}</strong>
+            {% endfor %}
+        </p>
 
 
 	<div class="center">
@@ -20,17 +30,17 @@
 			</thead>
 			<form method="POST" action="{{ url_for('index') }}">
 			<tr>
-				<td class="tg0"><br>X position:<br><input type="text" name="xpos"></td>
-	            <td class="tg0"><br>Y position:<br><input type="text" name="ypos"></td>
-	            <td class="tg0"><br>Z position:<br><input type="text" name="zpos"></td>
+				<td class="tg0"><br>X position:<br><input type="text" name="px" value=""></td>
+	            <td class="tg0"><br>Y position:<br><input type="text" name="py" value=""></td>
+	            <td class="tg0"><br>Z position:<br><input type="text" name="pz"></td>
 			</tr>
 			<tr>
-				<td class="tg1"><br>X velocity:<br><input type="text" name="xvel"></td>
-	            <td class="tg1"><br>Y velocity:<br><input type="text" name="xvel"></td>
-	            <td class="tg1"><br>X velocity:<br><input type="text" name="zvel"></td>
+				<td class="tg1"><br>X velocity:<br><input type="text" name="vx" value=""></td>
+	            <td class="tg1"><br>Y velocity:<br><input type="text" name="vy" value=""></td>
+	            <td class="tg1"><br>Z velocity:<br><input type="text" name="vz" value=""></td>
 			</tr>
 			<tr>
-				<td colspan=3 class="tg0"><br>Field force:<br><input type="text" name="force"></td>
+				<td colspan=3 class="tg0"><br>Field force:<br><input type="text" name="force" value=""></td>
 			</tr>
 			<tr>
 				<td colspan=3 class="tg1">
@@ -53,7 +63,7 @@
 		</div>
 
 		<div class="picture">
-			<img src="http://zapodaj.net/images/26b8b6a608220.jpg" />
+			<img src="1.jpg" />
 		</div>
 	</div>
 		<div id="footer"><h2>Copyright by: Katarzyna Zuberek, Michal Swiergolik, Aleksandra Mankiewicz</h2></div>
