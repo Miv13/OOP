@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link type="text/css" rel="stylesheet" href="stylesheet.css" />
+		<title>{{ config.SITE_NAME}}</title>
+	</head>
+
+	<body>
+		<div id="header">
+			<h1>Magnetic field symulator</h1>
+		</div>
+		<div id="underheader"></div>
+
+
+	<div class="center">
+		<div class="right">
+		<table class="tg">
+			<thead>
+				<th colspan=3>Simulation Data</th>
+			</thead>
+			<form method="POST" action="{{ url_for('index') }}">
+			<tr>
+				<td class="tg0"><br>X position:<br><input type="text" name="xpos"></td>
+	            <td class="tg0"><br>Y position:<br><input type="text" name="ypos"></td>
+	            <td class="tg0"><br>Z position:<br><input type="text" name="zpos"></td>
+			</tr>
+			<tr>
+				<td class="tg1"><br>X velocity:<br><input type="text" name="xvel"></td>
+	            <td class="tg1"><br>Y velocity:<br><input type="text" name="xvel"></td>
+	            <td class="tg1"><br>X velocity:<br><input type="text" name="zvel"></td>
+			</tr>
+			<tr>
+				<td colspan=3 class="tg0"><br>Field force:<br><input type="text" name="force"></td>
+			</tr>
+			<tr>
+				<td colspan=3 class="tg1">
+					<br>Field direction:<br><br><input type="radio" name="direction" value="0" checked>Positive<br><input type="radio" name="direction" value="1">Negative
+				</td>
+			</tr>
+			<tr>
+				<td colspan=3 class="tg0">
+					<br>Charge:<br><br><input type="radio" name="charge" value="0" checked>Proton
+					<br><input type="radio" name="charge" value="1">Electron
+				</td>
+			</tr>
+			<tr>
+				<td colspan=3 class="tg1">
+					<br><input type="submit" value="Submit">
+				</td>
+			</tr>
+		</form>
+		</table>
+		</div>
+
+		<div class="picture">
+			<img src="http://zapodaj.net/images/26b8b6a608220.jpg" />
+		</div>
+	</div>
+		<div id="footer"><h2>Copyright by: Katarzyna Zuberek, Michal Swiergolik, Aleksandra Mankiewicz</h2></div>
+
+        <ol>
+            
+        </ol>
+	</body>
+
+</html>
