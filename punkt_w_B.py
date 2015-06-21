@@ -7,6 +7,11 @@ from math import *
 
 # nazwa sceny 
 
+# DZIAŁAŁO NIEŹLE DLA ELEKTRONU PRZY DOŚĆ DUŻYM B, MAX. SKŁADOWYCH PRĘDKOŚCI X, Z, MINIMALNEJ Y (--> potem dt=0.1, nie 0.01)
+# Z JAKIEGOŚ POWODU PSUJE SIĘ PO PIERWSZYM UŻYCIU (OD DRUGIEGO: F=0)
+# CIĘŻKO BĘDZIE DOBRAĆ PARAMETRY POD ELEKTRON I PROTON, OGROMNA RÓŻNICA W PROMIENIU, MOŻE BĘDZIE TRZEBA ZROBIĆ 2 PRZYPADKI
+# OBECNIE PRAWIE DZIAŁA DLA MINIMALNYCH WARTOŚCI SKŁADOWYCH X, Z, TYLKO PROMIEŃ ZA DUŻY [r = (m*v)/(q*B)]
+
 scene.title='Ruch czastki w jednorodnym polu magnetycznym'
 scene.width = scene.height = 800
 granice=box(pos=(0,0,0),axis=(100,0,0),size=(55,55,55),opacity=0)
@@ -33,7 +38,7 @@ def poza (x):
     elif x >= 35 :
         x= 34
 
-    return (x)
+    return x
 
 # korekta przejscia przez zero oraz ustawienie wartosci granicznych wektora
 
@@ -43,17 +48,17 @@ def korekta (gg,gd,k,x):
     elif x < gd:
         x= gd
     if x==0:
-        return (x)
+        return x
     elif x>-k and x<k :
         x=0
-        return (x)
+        return x
     else:
-        return (x)
+        return x
 
 
 # ustawienie delta t 
 
-dt =0.01
+dt =0.1
 
 ## pole magentyczne 
 #wizualizacja biegunów magnetycznych
@@ -92,14 +97,14 @@ while warunek:
         y += -0.1
         y=korekta (10,0,0.1,y)
     elif klawisz=='backspace':
-        BP=(0,y*e-5,0)
+        BP=(0,y*0.01,0)              #y=0.1; y*e-5  ==/== 0.1e-5 !!!
         pole ()
         warunek=False
 
 B=BP
 #print ('Pole magnetyczne - ',BP)
 
-
+print B
 # punkt powrotu petli
 scena=True
 while scena:
@@ -200,35 +205,35 @@ while scena:
     warunek=True
     while warunek:
         punktlbl.visible=False
-        wektor = arrow(pos=(xi,yi,zi), axis=(a,b,c), color=(1, 0.7, 0.7),shaftwidth=0.1)
+        wektor = arrow(pos=(xi,yi,zi), axis=(a,b,c), color=(1, 0.7, 0.7),shaftwidth=0.2)
         klawisz = scene.kb.getkey()
     #	print (a,b,c)
         wektor.visible=False
         if klawisz=='up':
             b+=0.1
-            b=korekta (20,-20,0.1,b)
+            b=korekta (2,-2,0.1,b)
         elif klawisz=='down':
             b+=-0.1
-            b=korekta (20,-20,0.1,b)
+            b=korekta (2,-2,0.1,b)
         elif klawisz=='right':
-            a+=0.1
-            a=korekta (20,-20,0.1,a)
+            a+=100
+            a=korekta (1000,-1000,0.1,a)
         elif klawisz=='left':
-            a+=-0.1
-            a=korekta (20,-20,0.1,a)
+            a+=-100
+            a=korekta (1000,-1000,0.1,a)
         elif klawisz=='p':
-            c+=0.1
-            c=korekta (20,-20,0.1,c)
+            c+=100
+            c=korekta (1000,-1000,0.1,c)
         elif klawisz=='t':
-            c+=-0.1
-            c=korekta (20,-20,0.1,c)
+            c+=-100
+            c=korekta (1000,-1000,0.1,c)
         elif klawisz=='backspace':
             punkt.v=vector(a,b,c)
             warunek=False
 
 
 
-    #print ('pp',punkt.pos,'pv',punkt.v,'dt',dt)
+    print ('pp',punkt.pos,'pv',punkt.v,'dt',dt)
 
     # petla ruchu czastki
 
@@ -238,14 +243,14 @@ while scena:
 
     Fl=punkt.ladunek*cross(punkt.v,B)
     punkt.a = Fl / punkt.masa
-    #print (Fl)
+    print B
+    print (Fl)
 
     warunek=koniec=True
     while koniec:
 
         rate(100)
-        punkt.pos=punkt.pos+punkt.v*dt
-        punkt.trajectory.append(pos=punkt.pos)
+
 
         wektor.pos = punkt.pos
         wektor_z.pos=punkt.pos
@@ -258,16 +263,23 @@ while scena:
 
         if -16 < punkt.pos.x < 16 and -16 < punkt.pos.y < 16 and -16 < punkt.pos.z < 16:
             B=BP
-            print ('BP= ',B)
+        #    print ('BP= ',B)
         else:
             B=(0,0,0)
-            print ('B0= ',B)
-        print ('B= ',B)
-        punkt.v=punkt.a *dt
+        #    print ('B0= ',B)
+        #print ('B= ',B)
+        punkt.v=punkt.a *dt+vector(0,b,0)
+        print punkt.a
+        print punkt.v
         Fl = punkt.ladunek * cross(punkt.v , B )
         punkt.a = punkt.a+ Fl/punkt.masa
         punkt.pos = punkt.pos + (punkt.a) *dt*dt
-
+        punkt.pos=punkt.pos+punkt.v*dt
+        punkt.trajectory.append(pos=punkt.pos)
+        print Fl
+        print punkt.a
+        print punkt.pos
+        print "------------------------------------------------"
         #print(punkt.v)
         #print(Fl)
         #print(punkt.a)
