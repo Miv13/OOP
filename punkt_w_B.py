@@ -7,10 +7,11 @@ from math import *
 
 # nazwa sceny 
 
-# DZIAŁAŁO NIEŹLE DLA ELEKTRONU PRZY DOŚĆ DUŻYM B, MAX. SKŁADOWYCH PRĘDKOŚCI X, Z, MINIMALNEJ Y (--> potem dt=0.1, nie 0.01)
+# DZIAŁA: PROTON, X=100 (MOŻE BYĆ TROCHĘ WIĘKSZE), Y=0.6 (POWINNO BYĆ MNIEJSZE), B=0.4, dt=0.01,
+# ELEKTRON, X=100 (MOŻE BYĆ WIĘKSZE), Y=0.6 (DOBRE), B=0.4, dt=0.01
 # Z JAKIEGOŚ POWODU PSUJE SIĘ PO PIERWSZYM UŻYCIU (OD DRUGIEGO: F=0)
-# CIĘŻKO BĘDZIE DOBRAĆ PARAMETRY POD ELEKTRON I PROTON, OGROMNA RÓŻNICA W PROMIENIU, MOŻE BĘDZIE TRZEBA ZROBIĆ 2 PRZYPADKI
-# OBECNIE PRAWIE DZIAŁA DLA MINIMALNYCH WARTOŚCI SKŁADOWYCH X, Z, TYLKO PROMIEŃ ZA DUŻY [r = (m*v)/(q*B)]
+# CIĘŻKO BĘDZIE DOBRAĆ PARAMETRY POD ELEKTRON I PROTON, OGROMNA RÓŻNICA W PROMIENIU, MOŻE BĘDZIE TRZEBA ZROBIĆ 2 PRZYPADKI (???)
+# PROMIEŃ TROCHĘ ROŚNIE Z CZASEM (I MA ODCHYŁY W OBIE STRONY), PRAWDOPODOBNIE PRZEZ ZA DUŻY SKOK (NIE MOŻNA ZMIEJSZYĆ BO ZA WOLNO)
 
 scene.title='Ruch czastki w jednorodnym polu magnetycznym'
 scene.width = scene.height = 800
@@ -58,7 +59,7 @@ def korekta (gg,gd,k,x):
 
 # ustawienie delta t 
 
-dt =0.1
+dt =0.01
 
 ## pole magentyczne 
 #wizualizacja biegunów magnetycznych
@@ -97,7 +98,7 @@ while warunek:
         y += -0.1
         y=korekta (10,0,0.1,y)
     elif klawisz=='backspace':
-        BP=(0,y*0.01,0)              #y=0.1; y*e-5  ==/== 0.1e-5 !!!
+        BP=(0,y*0.1,0)              #y=0.1; y*e-5  ==/== 0.1e-5 !!!
         pole ()
         warunek=False
 
