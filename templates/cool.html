@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+		<title>{{ config.SITE_NAME}}</title>
+	</head>
+
+	<body>
+		<div id="header">
+			<h1>Magnetic field symulator</h1>
+		</div>
+		<div id="underheader"></div>
+
+		<p>
+            {% if error %}
+                <strong class="error">Błąd: {{ error }}</strong>
+            {% endif %}
+
+            {% for message in get_flashed_messages() %}
+                <strong class="success">{{ message }}</strong>
+            {% endfor %}
+        </p>
+
+
+	<div class="center">
+		<div class="right">
+		<table class="tg">
+			<thead>
+				<th colspan=3>Simulation Data</th>
+			</thead>
+			<form method="POST" action="{{ url_for('index') }}">
+			<tr>
+				<td class="tg0"><br>X position:<br><input type="text" name="px" value=""></td>
+	            <td class="tg0"><br>Y position:<br><input type="text" name="py" value=""></td>
+	            <td class="tg0"><br>Z position:<br><input type="text" name="pz"></td>
+			</tr>
+			<tr>
+				<td class="tg1"><br>X velocity:<br><input type="text" name="vx" value=""></td>
+	            <td class="tg1"><br>Y velocity:<br><input type="text" name="vy" value=""></td>
+	            <td class="tg1"><br>Z velocity:<br><input type="text" name="vz" value=""></td>
+			</tr>
+			<tr>
+				<td colspan=3 class="tg0"><br>Field force:<br><input type="text" name="force" value=""></td>
+			</tr>
+			<tr>
+				<td colspan=3 class="tg1">
+					<br>Field direction:<br><br><input type="radio" name="direction" value="0" checked>Positive<br><input type="radio" name="direction" value="1">Negative
+				</td>
+			</tr>
+			<tr>
+				<td colspan=3 class="tg0">
+					<br>Charge:<br><br><input type="radio" name="charge" value="0" checked>Proton
+					<br><input type="radio" name="charge" value="1">Electron
+				</td>
+			</tr>
+			<tr>
+				<td colspan=3 class="tg1">
+					<br><input type="submit" value="Submit">
+				</td>
+			</tr>
+		</form>
+		</table>
+		</div>
+
+		<div class="picture">
+			<img src="1.jpg" />
+		</div>
+	</div>
+		<div id="footer"><h2>Copyright by: Katarzyna Zuberek, Michal Swiergolik, Aleksandra Mankiewicz</h2></div>
+
+        <ol>
+            
+        </ol>
+	</body>
+
+</html>
