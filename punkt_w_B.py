@@ -5,10 +5,16 @@ from math import *
 # nazwa sceny
 
 
+# DZIAŁA: PROTON, X=100 (MOŻE BYĆ TROCHĘ WIĘKSZE), Y=0.6 (POWINNO BYĆ MNIEJSZE), B=0.4, dt=0.01,
+# ELEKTRON, X=100 (MOŻE BYĆ WIĘKSZE), Y=0.6 (DOBRE), B=0.4, dt=0.01
+# CIĘŻKO BĘDZIE DOBRAĆ PARAMETRY POD ELEKTRON I PROTON, OGROMNA RÓŻNICA W PROMIENIU, MOŻE POTRZEBNE 2 PRZYPADKI (???)
+# PROMIEŃ ROŚNIE Z CZASEM (I MA ODCHYŁY W OBIE STRONY), PRAWDOPODOBNIE ZA DUŻY SKOK (NIE MOŻNA ZMIEJSZYĆ BO WOLNO)
+
+
 scene.title='Ruch czastki w jednorodnym polu magnetycznym'
 scene.width = scene.height = 800
 granice=box(pos=(0,0,0),axis=(100,0,0),size=(55,55,55),opacity=0)
-scene.autoscale=Falsep
+scene.autoscale=False
 
 # pole magnetyczne
 def pole ():
@@ -51,7 +57,7 @@ def korekta (gg,gd,k,x):
 
 # ustawienie delta t
 
-dt =0.1
+dt =0.01
 
 ## pole magentyczne
 #wizualizacja biegunow magnetycznych
@@ -91,7 +97,7 @@ while warunek:
         y += -0.1
         y=korekta (7,0,0.1,y)
     elif klawisz=='backspace':
-        BP=(0,y*0.01,0)              #y=0.1; y*e-5  ==/== 0.1e-5 !!!
+        BP=(0,y*0.1,0)              #y=0.1; y*e-5  ==/== 0.1e-5 !!!
         pole ()
         warunek=False
 
@@ -211,16 +217,16 @@ while warunek:
         b=korekta (2,-2,0.1,b) #(2,-2,0.1,b)
     elif klawisz=='right':
         a+=10 #100
-        a=korekta (10000,-10000,0.1,a) #(1000,-1000,0.1,a)
+        a=korekta (100,-100,0.1,a) #(1000,-1000,0.1,a)
     elif klawisz=='left':
         a+=-10 #100
-        a=korekta (10000,-10000,0.1,a) #(1000,-1000,0.1,a)
+        a=korekta (100,-100,0.1,a) #(1000,-1000,0.1,a)
     elif klawisz=='p':
         c+=10 #100
-        c=korekta (10000,-10000,0.1,c) #(1000,-1000,0.1,c)
+        c=korekta (100,-100,0.1,c) #(1000,-1000,0.1,c)
     elif klawisz=='t':
         c+=-10 #100
-        c=korekta (10000,-10000,0.1,c) #(1000,-1000,0.1,c)
+        c=korekta (100,-100,0.1,c) #(1000,-1000,0.1,c)
     elif klawisz=='backspace':
         punkt.v=vector(10*a,10*b,10*c)
         warunek=False
@@ -270,7 +276,7 @@ while koniec:
 
 
     if punkt.pos.x <=-45 or punkt.pos.x >= 45 or punkt.pos.y <=-45 or punkt.pos.y >= 45 or punkt.pos.z <=-45 or punkt.pos.z >= 45 : #35
-        scenalbl1=label(pos=(-10,-27,15), text=' Punkt poza punktami granicznymi wizualizacji  ', color=(1,0.7, 0.7), opacity=0, height=10)
+        scenalbl1=label(pos=(-10,-27,15), text=' Czastka poza granicami wizualizacji ', color=(1,0.7, 0.7), opacity=0, height=10)
 
 #THE BOX HAS BEEN RESIZED
 #ITERATION IS UNNECESSARY DUE TO THE CHARACTER OF THIS PARTICULAR PROJECT
