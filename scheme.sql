@@ -15,4 +15,4 @@ create table data (
 );
 
 insert into data (id,px,py,pz,vx,vy,vz,force,direction,charge,data_pub)
-values (null, '4', '4', '4', '5', '5', '5', '6', '0', '0', datetime(current_timestamp));
+values (null, '4', '4', '4', '5', '5', '5', '6', 'positive', 'proton', datetime(current_timestamp));
