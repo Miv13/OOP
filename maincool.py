@@ -54,16 +54,16 @@ def index():
             db.execute('insert into data (px,py,pz,vx,vy,vz,force,direction,charge,data_pub) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
                         [px,py,pz,vx,vy,vz,force,direction,charge,data_pub]) #upycha dodane
             db.commit() #potwierdzenie
-            flash('Dodano nowe zadanie.')
+            flash('New task added.')
             return redirect(url_for('index'))
 
-        error = u'You cannot leave an empty shell!' # komunikat o bledzie
-
+        error = u'You cannot leave an empty cell!' # komunikat o bledzie
 
     db = get_db()
-    kursor = db.execute('select * from data order by data_pub desc;')
-    zadania = kursor.fetchall()
-    return render_template('cool.html')
+    cursor = db.execute('select * from data order by data_pub desc;')
+    data = cursor.fetchall()
+    
+    return render_template('cool.html', data=data, error=error), data
 
 
 if __name__ == '__main__':
