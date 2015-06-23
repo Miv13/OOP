@@ -1,3 +1,4 @@
+#coding: utf-8
 
 from visual import *
 from math import *
@@ -8,7 +9,7 @@ from math import *
 # DZIAŁA: PROTON, X=100 (MOŻE BYĆ TROCHĘ WIĘKSZE), Y=0.6 (POWINNO BYĆ MNIEJSZE), B=0.4, dt=0.01,
 # ELEKTRON, X=100 (MOŻE BYĆ WIĘKSZE), Y=0.6 (DOBRE), B=0.4, dt=0.01
 # CIĘŻKO BĘDZIE DOBRAĆ PARAMETRY POD ELEKTRON I PROTON, OGROMNA RÓŻNICA W PROMIENIU, MOŻE POTRZEBNE 2 PRZYPADKI (???)
-# PROMIEŃ ROŚNIE Z CZASEM (I MA ODCHYŁY W OBIE STRONY), PRAWDOPODOBNIE ZA DUŻY SKOK (NIE MOŻNA ZMIEJSZYĆ BO WOLNO)
+# PROMIEŃ ROŚNIE Z CZASEM (I MA ODCHYŁY W OBIE STRONY), PRAWDOPODOBNIE ZA DUŻY SKOK (NIE MOŻNA ZMNIEJSZYĆ BO WOLNO)
 
 
 scene.title='Ruch czastki w jednorodnym polu magnetycznym'
@@ -97,7 +98,7 @@ while warunek:
         y += -0.1
         y=korekta (7,0,0.1,y)
     elif klawisz=='backspace':
-        BP=(0,y*0.1,0)              #y=0.1; y*e-5  ==/== 0.1e-5 !!!
+        BP=(0,y*0.001,0)              #y=0.1; y*e-5  ==/== 0.1e-5 !!!
         pole ()
         warunek=False
 
@@ -107,176 +108,177 @@ B=BP
 
 # punkt powrotu petli
 scena=True
-#while scena:
-scenalbl1=label(pos=(-10,-27,15), text='UP - gora   DOWN - dol      BACKSPACE - O.K. ', color=(1,0.7, 0.7), opacity=0, height=10)
-scenalbl2=label(pos=(-10,-29,15), text='LEFT - lewo  RIGHT - prawo     p - przod  t - tyl', color=(1,0.7, 0.7), opacity=0, height=10)
+while scena:
+    scenalbl1=label(pos=(-10,-27,15), text='UP - gora   DOWN - dol      BACKSPACE - O.K. ', color=(1,0.7, 0.7), opacity=0, height=10)
+    scenalbl2=label(pos=(-10,-29,15), text='LEFT - lewo  RIGHT - prawo     p - przod  t - tyl', color=(1,0.7, 0.7), opacity=0, height=10)
 
 
-# ustawianie punktu
+    # ustawianie punktu
 
-punktlbl=label(pos=(-5,-20,15), text="Wybierz typ czastki e-elektron, p-proton", color=(1,0.7, 0.7), opacity=0, height=10)
+    punktlbl=label(pos=(-5,-20,15), text="Wybierz typ czastki e-elektron, p-proton", color=(1,0.7, 0.7), opacity=0, height=10)
 
-xi=yi=zi=0
-warunek=True
-while warunek :
-    klawisz = scene.kb.getkey()
-    if klawisz=='e':
+    xi=yi=zi=0
+    warunek=True
+    while warunek :
+        klawisz = scene.kb.getkey()
+        if klawisz=='e':
         #przyjeto elektron
-        punkt = sphere(pos = (xi, yi, zi), radius = .5, color = color.green, trail = curve(color=color.green))
-        punkt.ladunek=-1.6e-19
-        punkt.masa=9.1e-31
-        punkt.a=vector()
-        punkt.v=vector()
-        punkt.trajectory=curve(color=color.green,radius=.1)
-        punktlbl.visible = False
-        warunek=False
-    elif klawisz=='p':
+            punkt = sphere(pos = (xi, yi, zi), radius = .5, color = color.green, trail = curve(color=color.green))
+            punkt.ladunek=-1.6e-19
+            punkt.masa=9.1e-25
+            punkt.a=vector()
+            punkt.v=vector()
+            punkt.trajectory=curve(color=color.green,radius=.1)
+            punktlbl.visible = False
+            warunek=False
+        elif klawisz=='p':
         #przyjeto proton
-        punkt = sphere(pos = (xi, yi, zi), radius = .8, color = color.red, trail = curve(color=color.red))
-        punkt.ladunek=1.6e-19
-        punkt.masa=1.7e-27
-        punkt.a=vector()
-        punkt.v=vector()
-        punkt.trajectory=curve(color=color.red,radius=.1)
-        punktlbl.visible = False
-        warunek=False
-    elif klawisz != 'e' and klawisz != 'p':
-        continue
-    #       print ('Niewlasciwy wybor ')
-    elif klawisz=='backspace':
-        punktlbl.visible = False
-        warunek=False
+            punkt = sphere(pos = (xi, yi, zi), radius = .8, color = color.red, trail = curve(color=color.red))
+            punkt.ladunek=1.6e-19
+            punkt.masa=1.7e-21
+            punkt.a=vector()
+            punkt.v=vector()
+            punkt.trajectory=curve(color=color.red,radius=.1)
+            punktlbl.visible = False
+            warunek=False
+        elif klawisz != 'e' and klawisz != 'p':
+            continue
+            #print ('Niewlasciwy wybor ')
+        elif klawisz=='backspace':
+            punktlbl.visible = False
+            warunek=False
 
-# ustawianie pozycji punktu
-punktlbl=label(pos=(-5,-20,15), text="Ustaw pozycje czastki", color=(1,0.7, 0.7), opacity=0, height=10)
+    # ustawianie pozycji punktu
+    punktlbl=label(pos=(-5,-20,15), text="Ustaw pozycje czastki", color=(1,0.7, 0.7), opacity=0, height=10)
 
-warunek=True
-while warunek:
-    punkt.pos = (xi, yi, zi)
-    klawisz = scene.kb.getkey()
-    punktlbl.visible = False
-    if klawisz=='up':
-        yi += 1
-        yi = poza (yi)
-    elif klawisz=='down':
-        yi += -1
-        yi = poza (yi)
-    elif klawisz=='right':
-        xi += 1
-        xi = poza (xi)
-    elif klawisz=='left':
-        xi += -1
-        xi = poza (xi)
-    elif klawisz=='p':
-        zi += 1
-        zi = poza (zi)
-    elif klawisz=='t':
-        zi += -1
-        zi = poza (zi)
-    elif klawisz=='backspace':
+    warunek=True
+    while warunek:
         punkt.pos = (xi, yi, zi)
+        klawisz = scene.kb.getkey()
         punktlbl.visible = False
-        warunek=False
+        if klawisz=='up':
+            yi += 1
+            yi = poza (yi)
+        elif klawisz=='down':
+            yi += -1
+            yi = poza (yi)
+        elif klawisz=='right':
+            xi += 1
+            xi = poza (xi)
+        elif klawisz=='left':
+            xi += -1
+            xi = poza (xi)
+        elif klawisz=='p':
+            zi += 1
+            zi = poza (zi)
+        elif klawisz=='t':
+            zi += -1
+            zi = poza (zi)
+        elif klawisz=='backspace':
+            punkt.pos = (xi, yi, zi)
+            punktlbl.visible = False
+            warunek=False
 
-# czy maja byc widoczne wektory ruchu
+    # czy maja byc widoczne wektory ruchu
 
-punktlbl=label(pos=(-5,-20,15), text='widoczne wektory ruchu   t - tak  n - nie', color=(1,0.7, 0.7), opacity=0, height=10)
+    punktlbl=label(pos=(-5,-20,15), text='widoczne wektory ruchu   t - tak  n - nie', color=(1,0.7, 0.7), opacity=0, height=10)
 
 
-FalseTrue=False
-klawisz = scene.kb.getkey()
-if klawisz=='t':
-    FalseTrue=True
-elif klawisz=='n':
     FalseTrue=False
-
-wektor=arrow(pos=(xi,yi,zi),color=(1, 0.7, 0.7),shaftwidth=0.1)
-wektor_x=arrow(pos=(xi,yi,zi),color=color.yellow,shaftwidth=0.1)
-wektor_y=arrow(pos=(xi,yi,zi),color=color.orange,shaftwidth=0.1)
-wektor_z=arrow(pos=(xi,yi,zi),color=color.red,shaftwidth=0.1)
-
-wektor_x.visible=FalseTrue
-wektor_y.visible=FalseTrue
-wektor_z.visible=FalseTrue
-
-# ustawianie wektora ruchu
-
-a=b=c=0
-warunek=True
-while warunek:
-    punktlbl.visible=False
-    wektor = arrow(pos=(xi,yi,zi), axis=(a,b,c), color=(1, 0.7, 0.7),shaftwidth=0.2)
     klawisz = scene.kb.getkey()
-#	print (a,b,c)
-    wektor.visible=False
-    if klawisz=='up':
-        b+=0.01 #0.1
-        b=korekta (2,-2,0.1,b) #(2,-2,0.1,b)
-    elif klawisz=='down':
-        b+=-0.01 #0.1
-        b=korekta (2,-2,0.1,b) #(2,-2,0.1,b)
-    elif klawisz=='right':
-        a+=10 #100
-        a=korekta (100,-100,0.1,a) #(1000,-1000,0.1,a)
-    elif klawisz=='left':
-        a+=-10 #100
-        a=korekta (100,-100,0.1,a) #(1000,-1000,0.1,a)
-    elif klawisz=='p':
-        c+=10 #100
-        c=korekta (100,-100,0.1,c) #(1000,-1000,0.1,c)
-    elif klawisz=='t':
-        c+=-10 #100
-        c=korekta (100,-100,0.1,c) #(1000,-1000,0.1,c)
-    elif klawisz=='backspace':
-        punkt.v=vector(10*a,10*b,10*c)
-        warunek=False
+    if klawisz=='t':
+        FalseTrue=True
+    elif klawisz=='n':
+        FalseTrue=False
+
+    wektor=arrow(pos=(xi,yi,zi),color=(1, 0.7, 0.7),shaftwidth=0.1)
+    wektor_x=arrow(pos=(xi,yi,zi),color=color.yellow,shaftwidth=0.1)
+    wektor_y=arrow(pos=(xi,yi,zi),color=color.orange,shaftwidth=0.1)
+    wektor_z=arrow(pos=(xi,yi,zi),color=color.red,shaftwidth=0.1)
+
+    wektor_x.visible=FalseTrue
+    wektor_y.visible=FalseTrue
+    wektor_z.visible=FalseTrue
+
+    # ustawianie wektora ruchu
+
+    a=b=c=0
+    warunek=True
+    while warunek:
+        punktlbl.visible=False
+        wektor = arrow(pos=(xi,yi,zi), axis=(a,b,c), color=(1, 0.7, 0.7),shaftwidth=0.2)
+        klawisz = scene.kb.getkey()
+        #print (a,b,c)
+        wektor.visible=False
+        if klawisz=='up':
+            b+=0.01 #0.1
+            b=korekta (2,-2,0.01,b) #(2,-2,0.1,b)
+        elif klawisz=='down':
+            b+=-0.01 #0.1
+            b=korekta (2,-2,0.01,b) #(2,-2,0.1,b)
+        elif klawisz=='right':
+            a+=10 #100
+            a=korekta (100,-100,0.1,a) #(1000,-1000,0.1,a)
+        elif klawisz=='left':
+            a+=-10 #100
+            a=korekta (100,-100,0.1,a) #(1000,-1000,0.1,a)
+        elif klawisz=='p':
+            c+=10 #100
+            c=korekta (100,-100,0.1,c) #(1000,-1000,0.1,c)
+        elif klawisz=='t':
+            c+=-10 #100
+            c=korekta (100,-100,0.1,c) #(1000,-1000,0.1,c)
+        elif klawisz=='backspace':
+            punkt.v=vector(10*a,10*b,10*c)
+            warunek=False
 
 
 
-print ('pp',punkt.pos,'pv',punkt.v,'dt',dt)
+    print ('pp',punkt.pos,'pv',punkt.v,'dt',dt)
 
-#ruch czastki
-
-
-scenalbl1.visible=False
-scenalbl2.visible=False
-
-Fl=punkt.ladunek*cross(punkt.v,B)
-punkt.a = Fl / punkt.masa
+    #ruch czastki
 
 
-warunek=koniec=True
-while koniec:
+    scenalbl1.visible=False
+    scenalbl2.visible=False
 
-    rate(5) ###
-
-
-    wektor.pos = punkt.pos
-    wektor_z.pos=punkt.pos
-    wektor_z.axis=(0,0,10*punkt.v.z)
-    wektor_y.pos=punkt.pos
-    wektor_y.axis=(0,10*punkt.v.y,0)
-    wektor_x.pos=punkt.pos
-    wektor_x.axis=(10*punkt.v.x,0,0)
+    Fl=punkt.ladunek*cross(punkt.v,B)
+    punkt.a = Fl / punkt.masa
 
 
-    if -24 < punkt.pos.x < 24 and -24 < punkt.pos.y < 24 and -24 < punkt.pos.z < 24: #16
-        B=BP
+    warunek=koniec=True
+    while koniec:
+
+        rate(5) ###
+
+
+        wektor.pos = punkt.pos
+        wektor_z.pos=punkt.pos
+        wektor_z.axis=(0,0,10*punkt.v.z)
+        wektor_y.pos=punkt.pos
+        wektor_y.axis=(0,10*punkt.v.y,0)
+        wektor_x.pos=punkt.pos
+        wektor_x.axis=(10*punkt.v.x,0,0)
+        print punkt.a
+
+        if -24 < punkt.pos.x < 24 and -17 < punkt.pos.y < 17 and -24 < punkt.pos.z < 24: #16
+            B=BP
     #    print ('BP= ',B)
-    else:
-        B=(0,0,0)
+        else:
+            B=(0,0,0)
     #    print ('B0= ',B)
     #print ('B= ',B)
-    punkt.v=punkt.a *dt+vector(0,b,0)
-    Fl = punkt.ladunek * cross(punkt.v , B )
-    punkt.a = punkt.a+ Fl/punkt.masa
-    punkt.pos = punkt.pos + (punkt.a) *dt*dt
-    punkt.pos=punkt.pos+punkt.v*dt
-    punkt.trajectory.append(pos=punkt.pos)
+        punkt.v=punkt.a *dt+vector(0,b,0)
+        Fl = punkt.ladunek * cross(punkt.v, B)
+        punkt.a = punkt.a+ Fl/punkt.masa
+        punkt.pos = punkt.pos + (punkt.a)*dt*dt+punkt.v*dt
+
+        punkt.trajectory.append(pos=punkt.pos)
 
 
-    if punkt.pos.x <=-45 or punkt.pos.x >= 45 or punkt.pos.y <=-45 or punkt.pos.y >= 45 or punkt.pos.z <=-45 or punkt.pos.z >= 45 : #35
-        scenalbl1=label(pos=(-10,-27,15), text=' Czastka poza granicami wizualizacji ', color=(1,0.7, 0.7), opacity=0, height=10)
-
+        if punkt.pos.x <=-45 or punkt.pos.x >= 45 or punkt.pos.y <=-45 or punkt.pos.y >= 45 or punkt.pos.z <=-45 or punkt.pos.z >= 45 : #35
+            scenalbl1=label(pos=(-10,-27,15), text=' Czastka poza granicami wizualizacji ', color=(1,0.7, 0.7), opacity=0, height=10)
+            break
+exit
 #THE BOX HAS BEEN RESIZED
 #ITERATION IS UNNECESSARY DUE TO THE CHARACTER OF THIS PARTICULAR PROJECT
