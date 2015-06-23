@@ -13,7 +13,7 @@ from math import *
 
 scene.title='Ruch czastki w jednorodnym polu magnetycznym'
 scene.width = scene.height = 800
-granice=box(pos=(0,0,0),axis=(100,0,0),size=(55,55,55),opacity=0)
+granice=box(pos=(0,0,0),axis=(100,0,0),size=(55,55,55),opacity=0) #granice=box(pos=(0,0,0),axis=(100,0,0),size=(55,55,55),opacity=0)
 scene.autoscale=False
 
 # pole magnetyczne
@@ -73,10 +73,10 @@ for z in arange(-24, 24+4, 4):
 
 
 biegunN=box(pos=(0,-16,0), axis=(48,0,0), size=(48,.5,48), color=color.blue , opacity = 0.3)
-biegunNlbl=label(pos=(24,-16,24), text="N", color=color.blue, opacity=0, height=10)
+biegunNlbl=label(pos=(24,-17,24), text="N", color=color.blue, opacity=0, height=15)
 
 biegunS=box(pos=(0,16,0), axis=(48,0,0), size=(48,.5,48), color=color.red  , opacity = 0.3)
-biegunSlbl=label(pos=(24,16,24), text="S", color=color.red, opacity=0, height=10)
+biegunSlbl=label(pos=(24,17,24), text="S", color=color.red, opacity=0, height=15)
 
 # ustawienie wektora pola
 tekst='   '
@@ -97,13 +97,13 @@ while warunek:
         y += -0.1
         y=korekta (7,0,0.1,y)
     elif klawisz=='backspace':
-        BP=(0,y*0.1,0)              #y=0.1; y*e-5  ==/== 0.1e-5 !!!
+        BP=(0,y*0.001,0)              #y=0.1; y*e-5  ==/== 0.1e-5 !!!
         pole ()
         warunek=False
-
+BB=y*0.001
 B=BP
 #print ('Pole magnetyczne - ',BP)
-
+print BB
 
 # punkt powrotu petli
 scena=True
@@ -124,7 +124,7 @@ while warunek :
         #przyjeto elektron
         punkt = sphere(pos = (xi, yi, zi), radius = .5, color = color.green, trail = curve(color=color.green))
         punkt.ladunek=-1.6e-19
-        punkt.masa=9.1e-22  # jednostka: ng
+        punkt.masa=9.1e-25  # jednostka: mg
         punkt.a=vector()
         punkt.v=vector()
         punkt.trajectory=curve(color=color.green,radius=.1)
@@ -134,7 +134,7 @@ while warunek :
         #przyjeto proton
         punkt = sphere(pos = (xi, yi, zi), radius = .8, color = color.red, trail = curve(color=color.red))
         punkt.ladunek=1.6e-19
-        punkt.masa=1.7e-21  # jednostka: mg
+        punkt.masa=1.7e-24  # jednostka: g
         punkt.a=vector()
         punkt.v=vector()
         punkt.trajectory=curve(color=color.red,radius=.15)
@@ -174,7 +174,7 @@ while warunek:
         zi += -1
         zi = poza (zi)
     elif klawisz=='backspace':
-        punkt.pos = (xi, yi, zi)
+        punkt.temppos = vector(xi, yi, zi)
         punktlbl.visible = False
         warunek=False
 
@@ -244,20 +244,35 @@ scenalbl2.visible=False
 Fl=punkt.ladunek*cross(punkt.v,B)
 punkt.a = Fl / punkt.masa
 
-
+v=math.sqrt(a**2+c**2)
 warunek=koniec=True
+print (punkt.masa,v,punkt.ladunek,BB)
+radius=100*(punkt.masa*v)/(punkt.ladunek*BB)
+r=math.fabs(radius)
+t=0
+omega=v/radius
+print ('radius',radius,'r',r)
+print ('omega',omega)
+
 while koniec:
 
-    rate(5) ###
+    rate(50) ###
+    t=t+dt
+    cosValue=math.cos(omega*t)
+    sinValue=math.sin(omega*t)
+    punkt.pos.x=r*cosValue
+    punkt.pos.z=r*sinValue
+    punkt.pos.y=b*t
 
+    print ('t',t,punkt.pos.x,punkt.pos.y,punkt.pos.z)
 
-    wektor.pos = punkt.pos
-    wektor_z.pos=punkt.pos
-    wektor_z.axis=(0,0,10*punkt.v.z)
-    wektor_y.pos=punkt.pos
-    wektor_y.axis=(0,10*punkt.v.y,0)
-    wektor_x.pos=punkt.pos
-    wektor_x.axis=(10*punkt.v.x,0,0)
+    wektor.pos = punkt.temppos+punkt.pos
+    wektor_z.pos=punkt.temppos+punkt.pos
+    wektor_z.axis=(0,0,punkt.v.z)
+    wektor_y.pos=punkt.temppos+punkt.pos
+    wektor_y.axis=(0,punkt.v.y,0)
+    wektor_x.pos=punkt.temppos+punkt.pos
+    wektor_x.axis=(punkt.v.x,0,0)
 
 
     if -24 < punkt.pos.x < 24 and -24 < punkt.pos.y < 24 and -24 < punkt.pos.z < 24: #16
@@ -267,13 +282,14 @@ while koniec:
         B=(0,0,0)
     #    print ('B0= ',B)
     #print ('B= ',B)
-    Fl = punkt.ladunek * cross(punkt.v , B )
-    punkt.a = punkt.a+Fl/punkt.masa
-    #punkt.pos = punkt.pos + (punkt.a)*dt*dt
-    punkt.v=punkt.a *dt+punkt.v
-    punkt.pos=punkt.pos+punkt.v*dt
+
+   # Fl = punkt.ladunek * cross(punkt.v , B )
+   # punkt.a =punkt.a + Fl/punkt.masa
+   # punkt.pos = punkt.pos + (punkt.a)*dt*dt
+   # punkt.v=punkt.a *dt+vector(0,b,0) #!!!!!!!!!!!!!!!!
+    punkt.pos=punkt.temppos+vector(punkt.pos.x,punkt.pos.y,punkt.pos.z)
     punkt.trajectory.append(pos=punkt.pos)
-    print ('acc',punkt.a,'vel',punkt.v,'pos',punkt.pos)
+    print ('pos',punkt.pos)
 
     if punkt.pos.x <=-45 or punkt.pos.x >= 45 or punkt.pos.y <=-45 or punkt.pos.y >= 45 or punkt.pos.z <=-45 or punkt.pos.z >= 45 : #35
         scenalbl1=label(pos=(-10,-27,15), text=' Czastka poza granicami wizualizacji ', color=(1,0.7, 0.7), opacity=0, height=10)
