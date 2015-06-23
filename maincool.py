@@ -63,7 +63,7 @@ def index():
     cursor = db.execute('select * from data order by data_pub desc;')
     data = cursor.fetchall()
     
-    return render_template('cool.html', data=data, error=error), data
+    return render_template('cool.html', data=data, error=error)
 
 
 if __name__ == '__main__':
