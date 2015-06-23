@@ -11,17 +11,6 @@
 		</div>
 		<div id="underheader"></div>
 
-		<p>
-            {% if error %}
-                <strong class="error">Błąd: {{ error }}</strong>
-            {% endif %}
-
-            {% for message in get_flashed_messages() %}
-                <strong class="success">{{ message }}</strong>
-            {% endfor %}
-        </p>
-
-
 	<div class="center">
 		<div class="right">
 		<table class="tg">
@@ -40,17 +29,17 @@
 	            <td class="tg1"><br>Z velocity:<br><input type="text" name="vz" value=""></td>
 			</tr>
 			<tr>
-				<td colspan=3 class="tg0"><br>Field force:<br><input type="text" name="force" value=""></td>
+				<td colspan=3 class="tg0"><br>Induction:<br><input type="text" name="force" value=""></td>
 			</tr>
 			<tr>
 				<td colspan=3 class="tg1">
-					<br>Field direction:<br><br><input type="radio" name="direction" value="0" checked>Positive<br><input type="radio" name="direction" value="1">Negative
+					<br>Field direction:<br><br><input type="radio" name="direction" value="positive" checked>Positive<br><input type="radio" name="direction" value="negative">Negative
 				</td>
 			</tr>
 			<tr>
 				<td colspan=3 class="tg0">
-					<br>Charge:<br><br><input type="radio" name="charge" value="0" checked>Proton
-					<br><input type="radio" name="charge" value="1">Electron
+					<br>Charge:<br><br><input type="radio" name="charge" value="proton" checked>Proton
+					<br><input type="radio" name="charge" value="electron">Electron
 				</td>
 			</tr>
 			<tr>
@@ -63,7 +52,44 @@
 		</div>
 
 		<div class="picture">
-			<img src="1.jpg" />
+		<p>
+            {% if error %}
+                <strong class="error">Error: {{ error }}</strong>
+            {% endif %}
+
+            {% for message in get_flashed_messages() %}
+                <strong class="success">{{ message }}</strong>
+            {% endfor %}
+        </p>
+        <ol>
+            <!-- wypisujemy kolejno wszystkie zdania -->
+            {% for cell in data %}
+            {% if cell.id<8 %}
+                <li>
+                <fieldset><legend>Data set</legend>
+                <table class="data">
+                <tr> 
+                    <td id="al">Px : {{ cell.px }}</td>
+                    <td id="ac">Py : {{ cell.py }}</td>
+                    <td id="ar">Pz : {{ cell.py }}</td>
+                </tr>
+                <tr>
+                    <td id="al">Vx : {{ cell.vx }}</td>
+                    <td id="ac">Vy : {{ cell.vy }}</td>
+                    <td id="ar">Vz : {{ cell.vz }}</td>
+                </tr>
+                <tr>
+                    <td id="al">Force : {{ cell.force }}</td>
+                    <td id="ac">Direction : {{ cell.direction }}</td>
+                    <td id="ar">Charge : {{ cell.charge }}
+                </tr>
+            	</table>
+                </fieldset>    
+                </li>
+            {% endif %}
+            {% endfor %}
+        </ol>
+			<!--<img src="1.jpg" />-->
 		</div>
 	</div>
 		<div id="footer"><h2>Copyright by: Katarzyna Zuberek, Michal Swiergolik, Aleksandra Mankiewicz</h2></div>

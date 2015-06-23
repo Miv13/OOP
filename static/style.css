@@ -74,13 +74,14 @@ h2 {
 	font-family: Arial;
 }
 
-.tg  {
+.tg {
 	border-collapse:collapse;
 	border-spacing:0;
 	border-color:black;
 	/*border-style: solid;*/
-	border:none;}
-	
+	border:none;
+}
+
 .tg td{
 	font-family:Arial, sans-serif;
 	font-size:14px;
@@ -88,8 +89,9 @@ h2 {
 	/*border-style:solid;*/
 	border-width:1px;
 	overflow:hidden;
-	word-break:normal;}
-	
+	word-break:normal;
+}
+
 .tg th{
 	background-color: #ECECEC;
 	font-family:Arial, sans-serif;
@@ -101,10 +103,42 @@ h2 {
 	overflow:hidden;
 	word-break:normal;
 }
+
 .tg .tg1{
 	background-color: #f3f3f3;
 }
 
 .tg .tg0{
 	background-color: #f9f9f9;
+}
+
+#al{
+	width:390px;
+	font-family: Verdana;
+	font-size:13px;
+}
+
+#ac{
+	width:390px;
+	font-family: Verdana;
+	font-size:13px;
+}
+
+#ar{
+	width:180px;
+	font-family: Verdana;
+	font-size:13px;
+}
+
+li {
+	font-family:Verdana;
+}
+
+legend{
+	font-family: none;
+}
+
+.lista {
+	height:50px;
+	width:950;
 }
