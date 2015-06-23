@@ -1,4 +1,4 @@
-
+#coding: utf-8
 from visual import *
 from math import *
 
@@ -124,7 +124,7 @@ while warunek :
         #przyjeto elektron
         punkt = sphere(pos = (xi, yi, zi), radius = .5, color = color.green, trail = curve(color=color.green))
         punkt.ladunek=-1.6e-19
-        punkt.masa=9.1e-31
+        punkt.masa=9.1e-22  # jednostka: ng
         punkt.a=vector()
         punkt.v=vector()
         punkt.trajectory=curve(color=color.green,radius=.1)
@@ -134,10 +134,10 @@ while warunek :
         #przyjeto proton
         punkt = sphere(pos = (xi, yi, zi), radius = .8, color = color.red, trail = curve(color=color.red))
         punkt.ladunek=1.6e-19
-        punkt.masa=1.7e-27
+        punkt.masa=1.7e-21  # jednostka: mg
         punkt.a=vector()
         punkt.v=vector()
-        punkt.trajectory=curve(color=color.red,radius=.1)
+        punkt.trajectory=curve(color=color.red,radius=.15)
         punktlbl.visible = False
         warunek=False
     elif klawisz != 'e' and klawisz != 'p':
@@ -210,25 +210,25 @@ while warunek:
 #	print (a,b,c)
     wektor.visible=False
     if klawisz=='up':
-        b+=0.01 #0.1
-        b=korekta (2,-2,0.1,b) #(2,-2,0.1,b)
+        b+=0.5 #0.1
+        b=korekta (5,-5,0.1,b) #(2,-2,0.1,b)
     elif klawisz=='down':
-        b+=-0.01 #0.1
-        b=korekta (2,-2,0.1,b) #(2,-2,0.1,b)
+        b+=-0.5 #0.1
+        b=korekta (5,-5,0.1,b) #(2,-2,0.1,b)
     elif klawisz=='right':
-        a+=10 #100
-        a=korekta (100,-100,0.1,a) #(1000,-1000,0.1,a)
+        a+=0.5 #100
+        a=korekta (10,-10,0.1,a) #(1000,-1000,0.1,a)
     elif klawisz=='left':
-        a+=-10 #100
-        a=korekta (100,-100,0.1,a) #(1000,-1000,0.1,a)
+        a+=-0.5 #100
+        a=korekta (10,-10,0.1,a) #(1000,-1000,0.1,a)
     elif klawisz=='p':
-        c+=10 #100
-        c=korekta (100,-100,0.1,c) #(1000,-1000,0.1,c)
+        c+=0.5 #100
+        c=korekta (10,-10,0.1,c) #(1000,-1000,0.1,c)
     elif klawisz=='t':
-        c+=-10 #100
-        c=korekta (100,-100,0.1,c) #(1000,-1000,0.1,c)
+        c+=-0.5 #100
+        c=korekta (10,-10,0.1,c) #(1000,-1000,0.1,c)
     elif klawisz=='backspace':
-        punkt.v=vector(10*a,10*b,10*c)
+        punkt.v=vector(a,b,c)
         warunek=False
 
 
@@ -267,13 +267,13 @@ while koniec:
         B=(0,0,0)
     #    print ('B0= ',B)
     #print ('B= ',B)
-    punkt.v=punkt.a *dt+vector(0,b,0)
     Fl = punkt.ladunek * cross(punkt.v , B )
-    punkt.a = punkt.a+ Fl/punkt.masa
-    punkt.pos = punkt.pos + (punkt.a) *dt*dt
+    punkt.a = punkt.a+Fl/punkt.masa
+    #punkt.pos = punkt.pos + (punkt.a)*dt*dt
+    punkt.v=punkt.a *dt+punkt.v
     punkt.pos=punkt.pos+punkt.v*dt
     punkt.trajectory.append(pos=punkt.pos)
-
+    print ('acc',punkt.a,'vel',punkt.v,'pos',punkt.pos)
 
     if punkt.pos.x <=-45 or punkt.pos.x >= 45 or punkt.pos.y <=-45 or punkt.pos.y >= 45 or punkt.pos.z <=-45 or punkt.pos.z >= 45 : #35
         scenalbl1=label(pos=(-10,-27,15), text=' Czastka poza granicami wizualizacji ', color=(1,0.7, 0.7), opacity=0, height=10)
